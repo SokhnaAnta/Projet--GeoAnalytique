@@ -18,7 +18,6 @@ public class Dessinateur implements GeoObjectVisitor<Graphique> {
         this.viewPort = viewPort;
     }
 
-    @Override
     public Graphique visit(Point point) {
         int x = viewPort.convertX(point.getAbscisse());
         int y = viewPort.convertY(point.getOrdonnee());
@@ -88,6 +87,17 @@ public Graphique visit(Triangle triangle) {
     int[] xPoints = {viewPort.convertX(triangle.getPointA().getAbscisse()), viewPort.convertX(triangle.getPointB().getAbscisse()), viewPort.convertX(triangle.getPointC().getAbscisse())};
     int[] yPoints = {viewPort.convertY(triangle.getPointA().getOrdonnee()), viewPort.convertY(triangle.getPointB().getOrdonnee()), viewPort.convertY(triangle.getPointC().getOrdonnee())};
     return new GPolygone(xPoints[1], yPoints[2], xPoints, yPoints, 3,triangle.getNom()); 
+}
+
+@Override
+public Graphique visit(Texte texte) {
+
+    int x = viewPort.convertX(texte.getX());
+    int y = viewPort.convertY(texte.getY());
+    String  contenu = texte.getContenu();
+    return new GTexte(x, y, contenu, "") ;
+
+    
 }
 
 

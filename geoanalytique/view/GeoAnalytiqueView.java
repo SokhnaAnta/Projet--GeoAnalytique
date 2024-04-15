@@ -79,6 +79,7 @@ public class GeoAnalytiqueView extends JPanel {
     public void setGraphiques(List<Graphique> graphiques) {
         this.graphiques = graphiques;
     }
-
+    
+    
     
 }
