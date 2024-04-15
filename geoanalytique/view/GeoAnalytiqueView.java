@@ -38,7 +38,7 @@ public class GeoAnalytiqueView extends JPanel {
     private void handleMouseClick(int x, int y) {
         for (Graphique graphique : graphiques) {
             if (graphique.contientPoint(x, y)) {
-               // System.out.println("Objet sélectionné: " + graphique.getNom());
+               //System.out.println("Objet sélectionné: " + graphique.getNom());
                 return;
             }
         }
@@ -48,10 +48,9 @@ public class GeoAnalytiqueView extends JPanel {
         super.paintComponent(g);
         graphiques.clear();
         
-        Dessinateur dessinateur = new Dessinateur(viewPort); 
 
         for (GeoObject geoObject : controleur.getGeoObjects()) {
-            Graphique graphique = geoObject.accept(dessinateur);
+            Graphique graphique = geoObject.accept(this.dessinateur);
             graphiques.add(graphique);
             graphique.dessiner(g);
         }

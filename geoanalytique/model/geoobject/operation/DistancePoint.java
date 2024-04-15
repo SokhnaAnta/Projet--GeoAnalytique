@@ -28,7 +28,8 @@ public class DistancePoint implements Operation {
     @Override
     public void setArgument(int num, Object o) {
     }
-
+    
+    @SuppressWarnings("rawtypes")
     @Override
     public Class getClassArgument(int num) {
         return null;

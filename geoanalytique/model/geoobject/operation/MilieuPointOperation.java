@@ -28,7 +28,7 @@ public class MilieuPointOperation implements Operation {
             }
         }
     }
-
+    @SuppressWarnings("rawtypes")
     @Override
     public Class getClassArgument(int num) {
         return Point.class;

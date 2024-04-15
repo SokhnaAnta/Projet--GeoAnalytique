@@ -23,7 +23,7 @@ public class MediatriceSegmentOperation implements Operation {
             this.segment = (Segment) o;
         }
     }
-
+    @SuppressWarnings("rawtypes")
     @Override
     public Class getClassArgument(int num) {
         return Segment.class;
@@ -51,7 +51,7 @@ public class MediatriceSegmentOperation implements Operation {
             Point pointArrivee = new Point(milieuX + 100, pentePerpendiculaire * (milieuX + 100) + ordonneeOrigine,"Point de depart");
 
             // Construction de la médiatrice
-            return new Segment(pointDepart, pointArrivee,1,"nouveau segment");
+            return new Segment(pointDepart, pointArrivee,"nouveau segment");
         }
         return null;
     }

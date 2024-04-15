@@ -31,6 +31,7 @@ public class GLigne extends Graphique {
         this.y2 = y2;
     }
 
+
     @Override
     public boolean contientPoint(int x, int y) {
 

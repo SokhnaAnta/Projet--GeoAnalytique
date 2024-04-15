@@ -24,15 +24,14 @@ public class LongueurSegmentOperation implements Operation {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public Class getClassArgument(int num) {
         return Segment.class;
     }
-
     @Override
     public Object calculate() {
         if (segment != null) {
-            // Utilisation de l'opération de calcul de distance pour obtenir la longueur du segment
             Point pointA = segment.getPointA();
             Point pointB = segment.getPointB();
             DistancePoint distanceOperation = new DistancePoint(pointA, pointB);

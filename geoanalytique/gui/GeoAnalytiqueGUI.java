@@ -12,7 +12,7 @@ public class GeoAnalytiqueGUI extends JFrame {
     private GeoAnalytiqueView vue;
 
     public GeoAnalytiqueGUI(GeoAnalytiqueControleur controleur, GeoAnalytiqueView vue) {
-        super("GeoAnalytique - Dessinez vos formes géométriques");
+        super("GeoAnalytique - Dessinez vos formes geometriques");
         this.controleur = controleur;
         this.vue = vue;
 
@@ -25,7 +25,8 @@ public class GeoAnalytiqueGUI extends JFrame {
             @Override
             public void componentResized(ComponentEvent e) {
                 updateViewport();
-                controleur.recalculerPoints();
+
+                //controleur.recalculerPoints();
             }
         });
     }
@@ -50,7 +51,7 @@ public class GeoAnalytiqueGUI extends JFrame {
     }
     
     private void initializeUI() {
-        String[] shapes = {"Point", "Droite", "Segment", "Ellipse", "Cercle", "Polygone", "Carre", "Rectangle", "Triangle"};
+        String[] shapes = {"Point", "Droite", "Segment", "Ellipse", "Cercle", "Parallelogramme", "Rectangle","Carre","Triangle"};
         JComboBox<String> shapeSelector = new JComboBox<>(shapes);
         JTextField coordinatesField = new JTextField(20);
         JButton drawButton = new JButton("Dessiner");
@@ -59,7 +60,7 @@ public class GeoAnalytiqueGUI extends JFrame {
         JPanel controlPanel = new JPanel();
         controlPanel.add(new JLabel("Sélectionnez une forme:"));
         controlPanel.add(shapeSelector);
-        controlPanel.add(new JLabel("Entrez les coordonnées:"));
+        controlPanel.add(new JLabel("Entrez les coordonnees:"));
         controlPanel.add(coordinatesField);
         controlPanel.add(drawButton);
 

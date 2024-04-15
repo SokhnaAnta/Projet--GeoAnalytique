@@ -3,6 +3,7 @@ package geoanalytique.model.geoobject.operation;
 import geoanalytique.model.Point;
 import geoanalytique.util.Operation;
 
+
 public class DeplacerPointOperation implements Operation{
     private Point point;
     private double newX;
@@ -28,7 +29,7 @@ public class DeplacerPointOperation implements Operation{
             this.newY = (Double) o;
         }
     }
-
+    @SuppressWarnings("rawtypes")
     @Override
     public Class getClassArgument(int num) {
         if (num == 1) {

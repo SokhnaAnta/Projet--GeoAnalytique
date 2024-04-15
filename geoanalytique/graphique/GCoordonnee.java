@@ -1,5 +1,4 @@
 package geoanalytique.graphique ;
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class GCoordonnee extends Graphique {
@@ -11,7 +10,6 @@ public class GCoordonnee extends Graphique {
     @Override
     public void dessiner(Graphics g) {
         int diametre = 7;
-        g.setColor(Color.RED); 
         g.fillOval(x - diametre / 2, y - diametre / 2, diametre, diametre);
     }
     
