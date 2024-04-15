@@ -31,10 +31,26 @@ public class GOvale extends Graphique {
         this.hauteur = hauteur;
     }
     @Override
-    public boolean contientPoint(int x, int y) {
-        int centerX = this.x + largeur / 2;
-        int centerY = this.y + hauteur / 2;
-        return Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)) <= largeur / 2;
+    public boolean contientPoint(int px, int py) {
+        // Calculer les coordonnées du centre de l'ovale
+        int centerX = x + largeur / 2;
+        int centerY = y + hauteur / 2;
+    
+        // Calculer les rayons sur les axes x et y
+        int rx = largeur / 2;
+        int ry = hauteur / 2;
+    
+        // Vérifier si le point (px, py) est à l'intérieur de l'ovale
+        // (px - centerX)^2 / rx^2 + (py - centerY)^2 / ry^2 <= 1
+        if (rx == 0 || ry == 0) {
+            return false; // Évite la division par zéro, l'ovale ne peut pas être une ligne ou un point
+        }
+    
+        // Calcul de l'équation de l'ellipse pour le point donné
+        double equation = Math.pow((px - centerX) / (double) rx, 2) + Math.pow((py - centerY) / (double) ry, 2);
+    
+        return equation <= 1.0;
     }
+    
     
 }

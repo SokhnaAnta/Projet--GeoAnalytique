@@ -32,7 +32,7 @@ public class Dessinateur implements GeoObjectVisitor<Graphique> {
         int y1 = viewPort.convertY(droite.getPointA().getOrdonnee());
         int x2 = viewPort.convertX(droite.getPointB().getAbscisse());
         int y2 = viewPort.convertY(droite.getPointB().getOrdonnee());
-        System.out.println("droite dessine a "+x1+" "+y1+" "+x2+" "+y2);
+      //  System.out.println("droite dessine a "+x1+" "+y1+" "+x2+" "+y2);
         return new GLigne(x1, y1, x2, y2,droite.getNom());
     }
 

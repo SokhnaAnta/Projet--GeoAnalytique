@@ -19,16 +19,20 @@ public class GPolygone extends Graphique {
     }
 
     @Override
-    public boolean contientPoint(int x, int y) {
-        boolean result = false;
-        int j = nPoints - 1; // Le dernier sommet est le précédent du premier
-        for (int i = 0; i < nPoints; i++) {
-            if ((yPoints[i] > y) != (yPoints[j] > y) &&
-                (x < (xPoints[j] - xPoints[i]) * (y - yPoints[i]) / (yPoints[j] - yPoints[i]) + xPoints[i])) {
+public boolean contientPoint(int px, int py) {
+    boolean result = false;
+    int j = nPoints - 1;  // Dernier vertice
+
+    for (int i = 0; i < nPoints; i++) {
+        if ((yPoints[i] < py && yPoints[j] >= py) || (yPoints[j] < py && yPoints[i] >= py)) {
+            if (xPoints[i] + (py - yPoints[i]) / (double) (yPoints[j] - yPoints[i]) * (xPoints[j] - xPoints[i]) < px) {
                 result = !result;
             }
-            j = i;
         }
-        return result;
+        j = i; // j est maintenant le précédent i pour la prochaine itération
     }
+
+    return result;
+}
+
 }

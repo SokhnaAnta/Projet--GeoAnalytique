@@ -14,4 +14,28 @@ public abstract class Graphique {
 
     public abstract void dessiner(Graphics g);
     public abstract boolean contientPoint(int x , int y) ;
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 }

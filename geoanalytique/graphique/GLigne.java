@@ -32,17 +32,19 @@ public class GLigne extends Graphique {
     }
 
 
-    @Override
-    public boolean contientPoint(int x, int y) {
-
-        double debut = Math.sqrt(Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2));
-        double fin = Math.sqrt(Math.pow(x - this.x2, 2) + Math.pow(y - this.y2, 2));
-        double lineLength = Math.sqrt(Math.pow(this.x2 - this.x, 2) + Math.pow(this.y2 - this.y, 2));
+    public boolean contientPoint(int px, int py) {
+        double dist;
     
-        double temp = 0.1;  
-        if (debut + fin - lineLength > temp) {
-            return false;
-        }
+        // Longueur du segment de ligne
+        double longueur = Math.sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
+        if (longueur == 0) return false; // Le segment de ligne est un point
     
-        return true;    }
+        // Utilisation de la formule pour la distance point-ligne
+        dist = Math.abs((px - x) * (y2 - y) - (py - y) * (x2 - x)) / longueur;
+    
+        // Définir un seuil de distance pour considérer que le point "touche" la ligne
+        final double seuil = 5.0; // pixels
+    
+        return dist <= seuil;
+    }
 }
