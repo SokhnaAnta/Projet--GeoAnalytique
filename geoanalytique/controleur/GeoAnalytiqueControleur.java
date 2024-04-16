@@ -174,24 +174,42 @@ public class GeoAnalytiqueControleur {
             break;
 
             case "Carre":
-            if (coords.length == 3) {
-                //x1,y1,longueurcote
-                double longueurcote = Double.parseDouble(coords[2].trim());
-                Point pointA = new Point(x1, y1,""); // haut gauche
-                Point pointB = new Point(x1 + longueurcote, y1,""); // haut droit 
-                Point pointC = new Point(x1 + longueurcote, y1 + longueurcote,""); // bas droite c
-                Point pointD = new Point(x1, y1 + longueurcote,""); // bas gauche 
+            if (coords.length == 4) { // On a besoin de 4 coordonnées pour former un carré avec 2 points
+                // Récupération des coordonnées des deux points
+        
+                double x2 = Double.parseDouble(coords[2].trim());
+                double y2 = Double.parseDouble(coords[3].trim());
+        
+                // Calcul des coordonnées des deux autres points pour former un carré
+                double x3 = x2 + (y1 - y2);
+                double y3 = y2 + (x2 - x1);
+                double x4 = x1 + (y1 - y2);
+                double y4 = y1 + (x2 - x1);
+        
+                // Création des objets Point
+                Point pointA = new Point(x1, y1,"");
+                Point pointB = new Point(x2, y2,"");
+                Point pointC = new Point(x3, y3,"");
+                Point pointD = new Point(x4, y4,"");
+        
+                // Calcul des distances entre les points pour vérifier si c'est un carré
                 DistancePoint dAB = new DistancePoint(pointA, pointB);
                 DistancePoint dBC = new DistancePoint(pointB, pointC);
                 DistancePoint dCD = new DistancePoint(pointC, pointD);
                 DistancePoint dDA = new DistancePoint(pointD, pointA);
-                if (dAB.getDistance() == dBC.getDistance() && dBC.getDistance() == dCD.getDistance() && dCD.getDistance() == dDA.getDistance()) {
+        
+                // Vérification si les côtés ont la même longueur
+                if (dAB.getDistance() == dBC.getDistance() && 
+                    dBC.getDistance() == dCD.getDistance() && 
+                    dCD.getDistance() == dDA.getDistance()) {
                     Carre carre = new Carre(pointA, pointB, pointC, pointD, nom);
                     geoObjects.add(carre);
-                }
                 } else {
-                    message = "Les points fournis ne forment pas un carre valide";
+                    message = "Les points fournis ne forment pas un carré valide";
                 }
+            } else {
+                message = "Nombre de coordonnées incorrect pour former un carré";
+            }
             break;
             default:
             message = "Erreur , merci de respecter le format";
@@ -202,10 +220,6 @@ public class GeoAnalytiqueControleur {
        return message ;
     }
     
-
-
-
-  
 
     /**
      * Recalcule les points pour les axes et les graduations en fonction de la taille actuelle de la vue.
@@ -270,13 +284,13 @@ public class GeoAnalytiqueControleur {
 
      /**
      * Met à jour les informations affichées dans la GUI en fonction du type de forme sélectionnée.
-     * @param shape La forme sélectionnée par l'utilisateur.
+     * @param forme La forme sélectionnée par l'utilisateur.
      * @return Le format de saisie attendu pour la forme.
      */
-    public String updateInfo(String shape) {
+    public String updateInfo(String forme) {
          // Code pour retourner le format de saisie pour la forme sélectionnée.
         String message=" " ;
-        switch (shape) {
+        switch (forme) {
             case "Point":
                 message = "Format: x,y (ex: 1,-3.5)";
                 break ;
@@ -299,7 +313,7 @@ public class GeoAnalytiqueControleur {
                 message = "Format: x1,y1,x2,y2 (ex: 1,-1,-1,1)";
                 break ;
             case "Carre":
-                message = "Format: x1,y1,longueurCote (ex: 1,-4,3)";
+                message = "Format: x1,y1,x2,y2 (ex: 1,-4,3,6)";
                 break ;
             case "Triangle":
                 message = "Format: x1,y1,x2,y2,x3,y3 (ex: 1,1,-5,-2,5,2)";
