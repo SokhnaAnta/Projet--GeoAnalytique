@@ -58,4 +58,6 @@ public interface GeoObjectVisitor<T extends Graphique> {
      * @return Une instance de T, représentant graphiquement le parallelogramme.
      */
     T visit(Parallelogramme parallelogramme);
+
+    
 }

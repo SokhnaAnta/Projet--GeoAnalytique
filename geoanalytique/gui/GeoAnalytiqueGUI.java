@@ -17,6 +17,7 @@ public class GeoAnalytiqueGUI extends JFrame {
     private GeoAnalytiqueView vue;
     private JLabel infos;
     private JTextField nomField; 
+    private int i = 0  ; // Compte le nombre d'objets créés
 
     public GeoAnalytiqueGUI(GeoAnalytiqueControleur controleur, GeoAnalytiqueView vue) {
         super("GeoAnalytique - Dessinez vos formes geometriques");
@@ -24,6 +25,7 @@ public class GeoAnalytiqueGUI extends JFrame {
         this.vue = vue;
         initializeUI();
         setupWindowListener();
+      
     }
 
 
@@ -37,6 +39,7 @@ public class GeoAnalytiqueGUI extends JFrame {
         nomField = new JTextField(20);
         JButton button = new JButton("Effectuer");
         infos = new JLabel("Choisissez une forme");
+       
         JComboBox<String> operationsSelector = new JComboBox<>(new String[]{"Dessiner forme","deplacer un point", "calculer la distance avec"});  
             JPanel controlPanel = new JPanel(new GridLayout(3, 2, 10, 10)); // 3 rangees, 2 colonnes, avec des espaces de 10 pixels
             // Première rangee
@@ -69,11 +72,16 @@ public class GeoAnalytiqueGUI extends JFrame {
         });
 
         button.addActionListener(e -> {
-            String name = nomField.getText().isEmpty() ? formeselector.getSelectedItem().toString() : nomField.getText();
+            if (operationsSelector.getSelectedItem().toString().equals("Dessiner forme")) {
+            String name = nomField.getText().isEmpty() ? "GeoObject"+" "+i++ : nomField.getText();
             String message = controleur.addObjet(formeselector.getSelectedItem().toString(), coordsField.getText(), name);
             JOptionPane.showMessageDialog(this, message);
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "operation non implemente");
+            }
         });
-
+        
         this.setLayout(new BorderLayout());
         this.add(controlPanel, BorderLayout.NORTH);
         this.add(vue, BorderLayout.CENTER);

@@ -1,7 +1,6 @@
 package geoanalytique.model.geoobject.operation;
 
-//  les objets géométriques ont une méthode setName(String) pour changer le nom.
-// Cette classe devra être définie quelque part dans votre projet.
+import geoanalytique.exception.ArgumentOperationException;
 import geoanalytique.model.GeoObject;
 import geoanalytique.util.Operation;
 
@@ -26,21 +25,20 @@ public class ChangeNomOperation implements Operation {
     }
 
     // Définir l'argument, dans ce cas, le nouveau nom de l'objet
-    public void setArgument(int num, Object o) {
+    public void setArgument(int num, Object o) throws ArgumentOperationException {
         if (num == 1 && o instanceof String) {
             nouveauNom = (String) o;
         } else {
-            throw new IllegalArgumentException("Argument invalide pour ChangeNomOperation.");
+            throw new ArgumentOperationException("Argument invalide pour ChangeNomOperation.");
         }
     }
-
     // Récupérer la classe de l'argument, ici String pour le nom
     @SuppressWarnings("rawtypes")
-    public Class getClassArgument(int num) {
+    public Class getClassArgument(int num) throws ArgumentOperationException {
         if (num == 1) {
             return String.class;
         } else {
-            throw new IllegalArgumentException("Argument numéro invalide pour ChangeNomOperation.");
+            throw new ArgumentOperationException("Argument numéro invalide pour ChangeNomOperation.");
         }
     }
 
@@ -51,11 +49,11 @@ public class ChangeNomOperation implements Operation {
     }
 
     // Description de l'argument, ici le nouveau nom
-    public String getDescriptionArgument(int num) {
+    public String getDescriptionArgument(int num) throws ArgumentOperationException {
         if (num == 1) {
             return "Nouveau nom de l'objet géométrique";
         } else {
-            throw new IllegalArgumentException("Argument numéro invalide pour ChangeNomOperation.");
+            throw new ArgumentOperationException("Argument numéro invalide pour ChangeNomOperation.");
         }
     }
 }

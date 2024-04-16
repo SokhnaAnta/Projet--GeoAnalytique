@@ -72,7 +72,6 @@ public class GeoAnalytiqueView extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         graphiques.clear();
-        
         for (GeoObject geoObject : controleur.getGeoObjects()) {
             Graphique graphique = geoObject.accept(dessinateur);
             graphiques.add(graphique);

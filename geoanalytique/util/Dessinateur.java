@@ -118,7 +118,6 @@ public class Dessinateur implements GeoObjectVisitor<Graphique> {
     
         int x = xCentre - rayon;
         int y = yCentre - rayon;
-    
         return new GOvale(x, y, rayon * 2, rayon * 2, cercle.getNom());
     }
     

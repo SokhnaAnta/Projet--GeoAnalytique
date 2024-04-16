@@ -115,24 +115,32 @@ public class GeoAnalytiqueControleur {
                 message = "Pas assez de coordonnees pour dessiner un cercle";
             }
             break;   
+             case "Parallelogramme":
+            if (coords.length == 6) {
 
-            case "Parallelogramme":
-            //x1,y1,x2,y2,x3,y3,x4,y4
-            if (coords.length == 8) {
                 double x2 = Double.parseDouble(coords[2].trim());
                 double y2 = Double.parseDouble(coords[3].trim());
                 double x3 = Double.parseDouble(coords[4].trim());
                 double y3 = Double.parseDouble(coords[5].trim());
-                double x4 = Double.parseDouble(coords[6].trim());
-                double y4 = Double.parseDouble(coords[7].trim());
+                // Vecteurs entre les points
+
+                double vecBCX = x3 - x2;
+                double vecBCY = y3 - y2;
+
+                // Coordonnées du quatrième point
+                double x4 = x1 + vecBCX;
+                double y4 = y1 + vecBCY;
+
                 Parallelogramme parallelogramme = new Parallelogramme(
-                    new Point(x1, y1,"nom"), new Point(x2, y2,""), new Point(x3, y3,""), new Point(x4, y4,""), nom
+                    new Point(x1, y1, "Point1"), new Point(x2, y2, "Point2"),
+                    new Point(x3, y3, "Point3"), new Point(x4, y4, "Point4"), nom
                 );
-                geoObjects.add(parallelogramme);
+                                geoObjects.add(parallelogramme);
             } else {
-                message = "Pas assez de coordonnees pour dessiner un parallelogramme";
+                message = "Nombre incorrect de coordonnées pour dessiner un parallélogramme.";
             }
             break;
+   
         case "Triangle":
             if (coords.length == 6) {
                //x1,y1,x2,y2,x3,y3
@@ -186,7 +194,7 @@ public class GeoAnalytiqueControleur {
                 }
             break;
             default:
-            message = "Type d'objet non reconnu.";
+            message = "Erreur , merci de respecter le format";
             break;
     }
 
@@ -285,7 +293,7 @@ public class GeoAnalytiqueControleur {
                 message = "Format: x,y,rayon (ex: 1,-5,3)";
                 break ;
             case "Parallelogramme":
-                message = "Format: x1,y1,x2,y2,x3,y3,x4,y4 (ex: 1,3,2,-1,2,-2,5.3,2)";
+                message = "Format: x1,y1,x2,y2,x3,y3 (ex: 1,3,2,-1,2,-2)";
                 break ;
             case "Rectangle":
                 message = "Format: x1,y1,x2,y2 (ex: 1,-1,-1,1)";

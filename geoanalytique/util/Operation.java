@@ -1,5 +1,7 @@
 package geoanalytique.util;
 
+import geoanalytique.exception.ArgumentOperationException;
+
 /**
  * Interface définissant une opération générique qui peut être appliquée dans le contexte de l'application.
  * Cette interface est utilisée pour encapsuler des comportements spécifiques en tant qu'objets qui peuvent
@@ -11,7 +13,7 @@ public interface Operation {
      * Obtient le titre de l'opération.
      * @return Une chaîne de caractères représentant le titre de l'opération.
      */
-    String getTitle();
+    String getTitle() ;
 
     /**
      * Obtient l'arité de l'opération, c'est-à-dire le nombre d'arguments que l'opération prend.
@@ -24,7 +26,7 @@ public interface Operation {
      * @param num L'index de l'argument à définir.
      * @param o L'objet qui représente la valeur de l'argument.
      */
-    void setArgument(int num, Object o);
+    void setArgument(int num, Object o)throws ArgumentOperationException ;
 
     /**
      * Obtient la classe du type d'argument à un index spécifié.
@@ -32,18 +34,18 @@ public interface Operation {
      * @return La classe du type d'argument.
      */
     @SuppressWarnings("rawtypes")
-    Class getClassArgument(int num);
+    Class getClassArgument(int num) throws ArgumentOperationException;
 
     /**
      * Exécute le calcul ou l'opération représentée par cette instance.
      * @return Un objet résultant du calcul de l'opération.
      */
-    Object calculate();
+    Object calculate() ;
 
     /**
      * Obtient une description de l'argument à un index spécifié.
      * @param num L'index de l'argument.
      * @return Une chaîne de caractères décrivant l'argument.
      */
-    String getDescriptionArgument(int num);
+    String getDescriptionArgument(int num) throws ArgumentOperationException;
 }
