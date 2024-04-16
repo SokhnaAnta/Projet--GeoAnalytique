@@ -6,6 +6,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import geoanalytique.controleur.GeoAnalytiqueControleur;
+import geoanalytique.controleur.OperationControleur;
 import geoanalytique.view.GeoAnalytiqueView;
 
 
@@ -18,11 +19,13 @@ public class GeoAnalytiqueGUI extends JFrame {
     private JLabel infos;
     private JTextField nomField; 
     private int i = 0  ; // Compte le nombre d'objets créés
+    private OperationControleur operationControleur  ;
 
     public GeoAnalytiqueGUI(GeoAnalytiqueControleur controleur, GeoAnalytiqueView vue) {
         super("GeoAnalytique - Dessinez vos formes geometriques");
         this.controleur = controleur;
         this.vue = vue;
+        this.operationControleur = new OperationControleur(controleur,vue) ;
         initializeUI();
         setupWindowListener();
       
@@ -40,14 +43,14 @@ public class GeoAnalytiqueGUI extends JFrame {
         JButton button = new JButton("Effectuer");
         infos = new JLabel("Choisissez une forme");
        
-        JComboBox<String> operationsSelector = new JComboBox<>(new String[]{"Dessiner forme","deplacer un point", "calculer la distance avec"});  
+        JComboBox<String> operationsSelector = new JComboBox<>(new String[]{"","Dessiner forme","deplacer un point", "changer nom"});  
             JPanel controlPanel = new JPanel(new GridLayout(3, 2, 10, 10)); // 3 rangees, 2 colonnes, avec des espaces de 10 pixels
             // Première rangee
             controlPanel.add(new JLabel("Selectionnez une forme:"));
             controlPanel.add(formeselector);
 
             // Deuxième rangee
-            controlPanel.add(new JLabel("Entrez les coordonnees:"));
+            controlPanel.add(new JLabel("Entrez les donnees:"));
             controlPanel.add(coordsField);
 
             // Troisième rangee
@@ -72,13 +75,21 @@ public class GeoAnalytiqueGUI extends JFrame {
         });
 
         button.addActionListener(e -> {
-            if (operationsSelector.getSelectedItem().toString().equals("Dessiner forme")) {
             String name = nomField.getText().isEmpty() ? "GeoObject"+" "+i++ : nomField.getText();
-            String message = controleur.addObjet(formeselector.getSelectedItem().toString(), coordsField.getText(), name);
-            JOptionPane.showMessageDialog(this, message);
+            String operation = operationsSelector.getSelectedItem().toString() ;
+            String message ;
+            if (operation.equals("Dessiner forme")) {
+             message = controleur.addObjet(formeselector.getSelectedItem().toString(), coordsField.getText(), name);
+             nomField.setText("");
+            JOptionPane.showMessageDialog(this,message);
+            operationsSelector.setSelectedItem("");
             }
-            else{
-                JOptionPane.showMessageDialog(this, "operation non implemente");
+            else {
+                 message = operationControleur.effectuerOperation(operation ,name,coordsField.getText()) ;
+                 coordsField.setText("");
+                 nomField.setText("");
+                 JOptionPane.showMessageDialog(this,message);
+                 operationsSelector.setSelectedItem("");
             }
         });
         

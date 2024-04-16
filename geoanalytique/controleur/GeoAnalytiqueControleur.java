@@ -10,7 +10,7 @@ import geoanalytique.view.GeoAnalytiqueView;
  */
 
 public class GeoAnalytiqueControleur {
-    private List<GeoObject> geoObjects;   // Liste contenant tous les objets géométriques.
+    protected List<GeoObject> geoObjects;   // Liste contenant tous les objets géométriques accessible à OperationControleur
     private GeoObject selectedObject;     // Référence à l'objet géométrique actuellement sélectionné.
     private ViewPort viewPort;            // Gestionnaire de la vue et des transformations de coordonnées.
     private GeoAnalytiqueView view;       // La vue qui affiche les objets géométriques.
@@ -60,17 +60,13 @@ public class GeoAnalytiqueControleur {
      */
 
     public String addObjet(String type, String coordText,String nom) {
-        if(nom.equals(null)){
-         nom="geoObjet" ;  // Nom par défaut si aucun nom n'est fourni.
-        }
         String[] coords = coordText.split(",");
         double x1 = Double.parseDouble(coords[0].trim());
         double y1 = Double.parseDouble(coords[1].trim());
         String message ="Votre "+type+" "+nom+" a bien ete dessine" ;
-        
         switch (type) {
                 case "Point":
-                Point point = new Point(x1, y1, "Nom du Point");
+                Point point = new Point(x1, y1, nom);
                 geoObjects.add(point);
                 break;
                 case "Droite":
@@ -221,7 +217,7 @@ public class GeoAnalytiqueControleur {
     }
     
 
-    /**
+     /**
      * Recalcule les points pour les axes et les graduations en fonction de la taille actuelle de la vue.
      */
     

@@ -21,7 +21,7 @@ public class ChangeNomOperation implements Operation {
 
     // Arité de l'opération, 1 car nous changeons le nom d'un seul GeoObject à la fois
     public int getArite() {
-        return 1;
+        return 2;
     }
 
     // Définir l'argument, dans ce cas, le nouveau nom de l'objet
