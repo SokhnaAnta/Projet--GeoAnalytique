@@ -1,19 +1,23 @@
 package geoanalytique.controleur;
-
 import geoanalytique.model.*;
 import geoanalytique.model.geoobject.operation.DistancePoint;
-
 import java.util.List;
-
-
 import java.util.ArrayList;
 import geoanalytique.view.GeoAnalytiqueView;
 
+/**
+ * Contrôleur pour gérer l'interaction entre la vue et le modèle dans GeoAnalytique.
+ */
+
 public class GeoAnalytiqueControleur {
-    private List<GeoObject> geoObjects;
-    private GeoObject selectedObject;
-    private ViewPort viewPort ;
-    private GeoAnalytiqueView view; 
+    private List<GeoObject> geoObjects;   // Liste contenant tous les objets géométriques.
+    private GeoObject selectedObject;     // Référence à l'objet géométrique actuellement sélectionné.
+    private ViewPort viewPort;            // Gestionnaire de la vue et des transformations de coordonnées.
+    private GeoAnalytiqueView view;       // La vue qui affiche les objets géométriques.
+
+    /**
+     * Constructeur pour initialiser le contrôleur avec la vue et le viewport.
+     */
 
     public List<GeoObject> getGeoObjects() {
         return this.geoObjects;
@@ -45,11 +49,19 @@ public class GeoAnalytiqueControleur {
         this.viewPort = viewPort ;
         this.selectedObject = null;
     }
-    
+
+
+    /**
+     * Ajoute un objet géométrique en fonction du type et des coordonnées fournies par l'utilisateur.
+     * @param type Le type de l'objet géométrique à ajouter.
+     * @param coordText Les coordonnées de l'objet sous forme de texte.
+     * @param nom Le nom donné à l'objet géométrique.
+     * @return Un message indiquant le résultat de l'opération.
+     */
 
     public String addObjet(String type, String coordText,String nom) {
         if(nom.equals(null)){
-         nom="geoObjet" ;
+         nom="geoObjet" ;  // Nom par défaut si aucun nom n'est fourni.
         }
         String[] coords = coordText.split(",");
         double x1 = Double.parseDouble(coords[0].trim());
@@ -68,7 +80,7 @@ public class GeoAnalytiqueControleur {
                     Droite droite = new Droite(new Point(x1, y1, "Point1"), new Point(x2, y2, "Point2"), nom);
                     geoObjects.add(droite);
                 } else {
-                    message = "Pas assez de coordonnées pour dessiner une droite";
+                    message = "Pas assez de coordonnees pour dessiner une droite";
                 }
                 break;
                 case "Segment":
@@ -78,7 +90,7 @@ public class GeoAnalytiqueControleur {
                     Segment segment = new Segment(new Point(x1, y1, "Point1"), new Point(x2, y2, "Point2"), nom);
                     geoObjects.add(segment);
                 } else {
-                    message =  "Pas assez de coordonnées pour dessiner un segment" ;
+                    message =  "Pas assez de coordonnees pour dessiner un segment" ;
                 }
                 break;
                 case "Ellipse":
@@ -89,7 +101,7 @@ public class GeoAnalytiqueControleur {
                     Ellipse ellipse = new Ellipse(new Point(x1, y1, "Centre de l'Ellipse"), rx, ry, nom);
                     geoObjects.add(ellipse);
                 } else {
-                    message = "Pas assez de coordonnées pour dessiner une ellipse";
+                    message = "Pas assez de coordonnees pour dessiner une ellipse";
                 }
                 break; 
 
@@ -100,7 +112,7 @@ public class GeoAnalytiqueControleur {
                 Cercle cercle = new Cercle(new Point(x1, y1,"centre"), rayon, nom);
                 geoObjects.add(cercle);
             } else {
-                message = "Pas assez de coordonnées pour dessiner un cercle";
+                message = "Pas assez de coordonnees pour dessiner un cercle";
             }
             break;   
 
@@ -118,7 +130,7 @@ public class GeoAnalytiqueControleur {
                 );
                 geoObjects.add(parallelogramme);
             } else {
-                message = "Pas assez de coordonnées pour dessiner un parallelogramme";
+                message = "Pas assez de coordonnees pour dessiner un parallelogramme";
             }
             break;
         case "Triangle":
@@ -132,7 +144,7 @@ public class GeoAnalytiqueControleur {
                     new Point(x1, y1,"p1"), new Point(x2, y2,"p2"), new Point(x3, y3,"p3"),nom);
                 geoObjects.add(triangle);
             } else {
-                message = "Pas assez de coordonnées pour dessiner un triangle";
+                message = "Pas assez de coordonnees pour dessiner un triangle";
             }
             break;
             case "Rectangle":
@@ -149,7 +161,7 @@ public class GeoAnalytiqueControleur {
                 );
                 geoObjects.add(rectangle);
             } else {
-                message =  "Pas assez de coordonnées pour dessiner un rectangle";
+                message =  "Pas assez de coordonnees pour dessiner un rectangle";
             }
             break;
 
@@ -165,19 +177,20 @@ public class GeoAnalytiqueControleur {
                 DistancePoint dBC = new DistancePoint(pointB, pointC);
                 DistancePoint dCD = new DistancePoint(pointC, pointD);
                 DistancePoint dDA = new DistancePoint(pointD, pointA);
-
                 if (dAB.getDistance() == dBC.getDistance() && dBC.getDistance() == dCD.getDistance() && dCD.getDistance() == dDA.getDistance()) {
                     Carre carre = new Carre(pointA, pointB, pointC, pointD, nom);
                     geoObjects.add(carre);
                 }
                 } else {
-                    message = "Les points fournis ne forment pas un carré valide";
+                    message = "Les points fournis ne forment pas un carre valide";
                 }
-            
+            break;
+            default:
+            message = "Type d'objet non reconnu.";
             break;
     }
 
-       view.repaint(); 
+       view.repaint(); // Demande de rafraîchissement de la vue.
        return message ;
     }
     
@@ -186,7 +199,9 @@ public class GeoAnalytiqueControleur {
 
   
 
-   
+    /**
+     * Recalcule les points pour les axes et les graduations en fonction de la taille actuelle de la vue.
+     */
     
     public void recalculPoint() {
         // Initialisation des axes
@@ -195,7 +210,7 @@ public class GeoAnalytiqueControleur {
         geoObjects.add(axeOx);
         geoObjects.add(axeOy);
 
-        // Recalcul
+        // Recalcul des points
         int largeur = view.getWidth() ;
         int longueur = view.getHeight();
     
@@ -210,34 +225,48 @@ public class GeoAnalytiqueControleur {
         view.getViewPort().setyMin(-longueur / 2 / echelle);
         view.getViewPort().setyMax(longueur / 2 / echelle);
     
-        // Redessiner la vue pour refléter les changements
+        // Redessiner la vue pour refleter les changements
         view.repaint();
         addGraduations();
     }
+
+
+     /**
+     * Ajoute des graduations aux axes.
+     */
+
     public void addGraduations() {
+        // Code pour ajouter des graduations ici.
         int largeur = viewPort.getLargeur();
         int longueur = viewPort.getLongueur(); 
         String axeXnom= "Axe Ox Graduation ";
         String axeYnom = "Axe Oy Graduation ";
-    // Supprimer les anciennes graduations si nécessaire
+    // Supprimer les anciennes graduations si necessaire
     geoObjects.removeIf(g -> g.getNom().contains("Graduation"));
         // Graduations sur l'axe X
         for (int i = -largeur; i <= largeur; i++) {
-            if (i != 0) {  // Éviter de placer une graduation à l'origine
+            if (i != 0) {  // eviter de placer une graduation à l'origine
                 geoObjects.add(new Point(i, 0, axeXnom+ i));
             }
         }
     
         // Graduations sur l'axe Y
         for (int i = -longueur; i <= longueur; i++) {
-            if (i != 0) {  // Éviter de placer une graduation à l'origine
+            if (i != 0) {  // eviter de placer une graduation à l'origine
                 geoObjects.add(new Point(0, i, axeYnom + i));
             }
         }
     }
     
 
+
+     /**
+     * Met à jour les informations affichées dans la GUI en fonction du type de forme sélectionnée.
+     * @param shape La forme sélectionnée par l'utilisateur.
+     * @return Le format de saisie attendu pour la forme.
+     */
     public String updateInfo(String shape) {
+         // Code pour retourner le format de saisie pour la forme sélectionnée.
         String message=" " ;
         switch (shape) {
             case "Point":
@@ -253,7 +282,7 @@ public class GeoAnalytiqueControleur {
                 message = "Format: x,y,rayonX,rayonY (ex: 1,1.5,5,3)";
                 break ;
             case "Cercle":
-                message = "Format: x,y,rayon (ex: 1,-5,-3)";
+                message = "Format: x,y,rayon (ex: 1,-5,3)";
                 break ;
             case "Parallelogramme":
                 message = "Format: x1,y1,x2,y2,x3,y3,x4,y4 (ex: 1,3,2,-1,2,-2,5.3,2)";
@@ -265,17 +294,20 @@ public class GeoAnalytiqueControleur {
                 message = "Format: x1,y1,longueurCote (ex: 1,-4,3)";
                 break ;
             case "Triangle":
-                message = "Format: x1,y1,x2,y2,x3,y3 (ex: 1,150,150,2,50,200)";
+                message = "Format: x1,y1,x2,y2,x3,y3 (ex: 1,1,-5,-2,5,2)";
                 break ;
             default:
-                message = "Sélectionnez une forme pour voir le format.";
+                message = "Selectionnez une forme pour voir le format.";
                 break ;
         }
         this.view.repaint();
         return message ;
     }
 
-   
+    /**
+     * Sélectionne un objet géométrique pour permettre des interactions spécifiques.
+     * @param objet L'objet géométrique à sélectionner.
+     */
     
     public void selectionner(GeoObject objet) {
         
@@ -284,8 +316,13 @@ public class GeoAnalytiqueControleur {
         
     }
 
+    /**
+     * Désélectionne l'objet géométrique actuellement sélectionné.
+     */
+
     public void deselectionner() {
        
+        this.selectedObject = null;
     }
     
     

@@ -1,4 +1,3 @@
-
 package geoanalytique.gui;
 
 import javax.swing.*;
@@ -6,15 +5,18 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
-
 import geoanalytique.controleur.GeoAnalytiqueControleur;
 import geoanalytique.view.GeoAnalytiqueView;
 
+
+/**
+ * Interface graphique principale pour l'application GeoAnalytique.
+ */
 public class GeoAnalytiqueGUI extends JFrame {
     private GeoAnalytiqueControleur controleur;
     private GeoAnalytiqueView vue;
     private JLabel infos;
-    private JTextField nameField; 
+    private JTextField nomField; 
 
     public GeoAnalytiqueGUI(GeoAnalytiqueControleur controleur, GeoAnalytiqueView vue) {
         super("GeoAnalytique - Dessinez vos formes geometriques");
@@ -24,48 +26,51 @@ public class GeoAnalytiqueGUI extends JFrame {
         setupWindowListener();
     }
 
+
+     /**
+     * Initialise l'interface utilisateur.
+     */
     private void initializeUI() {
-        String[] shapes = {"Point", "Droite", "Segment", "Ellipse", "Cercle", "Parallelogramme", "Rectangle", "Carre", "Triangle"};
-        JComboBox<String> shapeSelector = new JComboBox<>(shapes);
-        JTextField coordinatesField = new JTextField(20);
-        nameField = new JTextField(20);
-        JButton drawButton = new JButton("Effectuer");
+        String[] formes = {"Point", "Droite", "Segment", "Ellipse", "Cercle", "Parallelogramme", "Rectangle", "Carre", "Triangle"};
+        JComboBox<String> formeselector = new JComboBox<>(formes);
+        JTextField coordsField = new JTextField(20);
+        nomField = new JTextField(20);
+        JButton button = new JButton("Effectuer");
         infos = new JLabel("Choisissez une forme");
         JComboBox<String> operationsSelector = new JComboBox<>(new String[]{"Dessiner forme","deplacer un point", "calculer la distance avec"});  
-            JPanel controlPanel = new JPanel(new GridLayout(3, 2, 10, 10)); // 3 rangées, 2 colonnes, avec des espaces de 10 pixels
+            JPanel controlPanel = new JPanel(new GridLayout(3, 2, 10, 10)); // 3 rangees, 2 colonnes, avec des espaces de 10 pixels
+            // Première rangee
+            controlPanel.add(new JLabel("Selectionnez une forme:"));
+            controlPanel.add(formeselector);
 
-            // Première rangée
-            controlPanel.add(new JLabel("Sélectionnez une forme:"));
-            controlPanel.add(shapeSelector);
+            // Deuxième rangee
+            controlPanel.add(new JLabel("Entrez les coordonnees:"));
+            controlPanel.add(coordsField);
 
-            // Deuxième rangée
-            controlPanel.add(new JLabel("Entrez les coordonnées:"));
-            controlPanel.add(coordinatesField);
-
-            // Troisième rangée
+            // Troisième rangee
             controlPanel.add(new JLabel("Nommez votre forme:"));
-            controlPanel.add(nameField);
+            controlPanel.add(nomField);
 
-            // Quatrième rangée
-            controlPanel.add(new JLabel("Choisissez une opération:"));
+            // Quatrième rangee
+            controlPanel.add(new JLabel("Choisissez une operation:"));
             controlPanel.add(operationsSelector);
 
-            // Cinquième rangée
+            // Cinquième rangee
             controlPanel.add(infos);
             controlPanel.add(new JLabel(""));
             controlPanel.add(new JLabel(""));
-            controlPanel.add(drawButton);
+            controlPanel.add(button);
 
-        shapeSelector.addItemListener(e -> {
+        formeselector.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 String selectedShape = e.getItem().toString();
                 infos.setText("Attributs:" + controleur.updateInfo(selectedShape));
             }
         });
 
-        drawButton.addActionListener(e -> {
-            String name = nameField.getText().isEmpty() ? shapeSelector.getSelectedItem().toString() : nameField.getText();
-            String message = controleur.addObjet(shapeSelector.getSelectedItem().toString(), coordinatesField.getText(), name);
+        button.addActionListener(e -> {
+            String name = nomField.getText().isEmpty() ? formeselector.getSelectedItem().toString() : nomField.getText();
+            String message = controleur.addObjet(formeselector.getSelectedItem().toString(), coordsField.getText(), name);
             JOptionPane.showMessageDialog(this, message);
         });
 
@@ -77,6 +82,10 @@ public class GeoAnalytiqueGUI extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
+
+    /**
+     * Configure l'écouteur pour redimensionner les composants.
+     */
     private void setupWindowListener() {
         this.addComponentListener(new ComponentAdapter() {
             @Override

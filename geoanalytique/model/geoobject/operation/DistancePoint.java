@@ -22,7 +22,7 @@ public class DistancePoint implements Operation {
 
     @Override
     public int getArite() {
-        return 0; 
+        return 2; 
     }
 
     @Override

@@ -1,15 +1,32 @@
 package geoanalytique.graphique ;
 import java.awt.Graphics;
 
+/**
+ * Classe GLigne représentant une ligne graphique sur un canevas.
+ */
+
 public class GLigne extends Graphique {
     private int x2, y2; // Coordonnées du deuxième point de la ligne
-
+    
+    /**
+     * Constructeur pour créer une ligne graphique.
+     * @param x1 La position x du premier point.
+     * @param y1 La position y du premier point.
+     * @param x2 La position x du deuxième point.
+     * @param y2 La position y du deuxième point.
+     * @param nom Le nom associé à cette ligne.
+     */
     public GLigne(int x1, int y1, int x2, int y2,String nom) {
         super(x1, y1,nom);
         this.x2 = x2;
         this.y2 = y2;
     }
 
+
+    /**
+     * Méthode pour dessiner la ligne sur le canevas.
+     * @param g L'objet Graphics utilisé pour dessiner.
+     */
     @Override
     public void dessiner(Graphics g) {
         g.drawLine(x, y, x2, y2); // Dessiner une ligne entre deux points
@@ -30,7 +47,12 @@ public class GLigne extends Graphique {
     public void setY2(int y2) {
         this.y2 = y2;
     }
-
+     /**
+     * Méthode pour déterminer si un clic de souris est proche de la ligne.
+     * @param px La position x du clic de souris.
+     * @param py La position y du clic de souris.
+     * @return true si le clic est à une distance acceptable de la ligne.
+     */
 
     public boolean contientPoint(int px, int py) {
         double dist;
