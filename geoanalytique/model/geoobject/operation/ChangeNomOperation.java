@@ -27,7 +27,7 @@ public class ChangeNomOperation implements Operation {
 
     // Définir l'argument, dans ce cas, le nouveau nom de l'objet
     public void setArgument(int num, Object o) {
-        if (num == 0 && o instanceof String) {
+        if (num == 1 && o instanceof String) {
             nouveauNom = (String) o;
         } else {
             throw new IllegalArgumentException("Argument invalide pour ChangeNomOperation.");
@@ -37,7 +37,7 @@ public class ChangeNomOperation implements Operation {
     // Récupérer la classe de l'argument, ici String pour le nom
     @SuppressWarnings("rawtypes")
     public Class getClassArgument(int num) {
-        if (num == 0) {
+        if (num == 1) {
             return String.class;
         } else {
             throw new IllegalArgumentException("Argument numéro invalide pour ChangeNomOperation.");
@@ -52,7 +52,7 @@ public class ChangeNomOperation implements Operation {
 
     // Description de l'argument, ici le nouveau nom
     public String getDescriptionArgument(int num) {
-        if (num == 0) {
+        if (num == 1) {
             return "Nouveau nom de l'objet géométrique";
         } else {
             throw new IllegalArgumentException("Argument numéro invalide pour ChangeNomOperation.");
